@@ -1,5 +1,9 @@
 <template>
-    <div>hola</div>
+    <div>
+        <h1>
+            pepe
+        </h1>
+    </div>
 </template>
 
 <script>

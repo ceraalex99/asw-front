@@ -1,11 +1,9 @@
 
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js App"/>
-        <ContributionList/>
-        <ContributionEdit/>
-        <ContributionShow/>
+        <router-link to="/contributions/new">Go to New</router-link>
+        <router-link to="/contributions">Go to index</router-link>
+        <router-view></router-view>
     </div>
 </template>
 
