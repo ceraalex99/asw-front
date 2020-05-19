@@ -1,7 +1,7 @@
-import ContributionList from "@/components/ContributionList";
-import ContributionShow from "@/components/ContributionShow";
-import ContributionNew from "@/components/ContributionNew";
-import ContributionEdit from "@/components/ContributionEdit";
+import ContributionList from "@/components/contributions/ContributionList";
+import ContributionShow from "@/components/contributions/ContributionShow";
+import ContributionNew from "@/components/contributions/ContributionNew";
+import ContributionEdit from "@/components/contributions/ContributionEdit";
 
 
 export default [
