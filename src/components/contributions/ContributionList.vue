@@ -34,7 +34,7 @@
                }
         },
         created() {
-            HTTP.get('/posts').then(response => {
+            HTTP.get('/posts',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.contributions = response.data
             }).catch(e => {
                 this.errors.push(e);

@@ -32,7 +32,7 @@
             }
         },
         created() {
-            HTTP.get('/posts/ask').then(response => {
+            HTTP.get('/posts/ask',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.contributions = response.data
             }).catch(e => {
                 this.errors.push(e);
