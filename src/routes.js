@@ -18,7 +18,7 @@ export default [
     {name: 'contributionAsk', path: '/contributions/ask', component: ContributionAsk},
     {name: 'contributionThreads', path: '/contributions/threads', component: ContributionThreads},
     {name: 'contributionShow', path: '/contributions/:id', component: ContributionShow},
-    {name: 'userShow', path: '/users/:id', component: UserShow}
+    {name: 'userShow', path: '/users/:id', component: UserShow},
     {name: 'contributionEdit', path: '/contributions/:id/edit', component: ContributionEdit},
     {name: 'login', path: '/login', component: Login}
 ]
