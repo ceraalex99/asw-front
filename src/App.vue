@@ -6,11 +6,11 @@
         <table>
             <tr>
                 <td id="routes">
-                    <v-btn to="/contributions" text>HOME</v-btn>
-                    <v-btn to="/newest" text>NEWEST</v-btn>
-                    <v-btn to="/ask" text>ASK</v-btn>
-                    <v-btn to="/threads" text>THREADS</v-btn>
-                    <v-btn to="/submit" text>SUBMIT</v-btn>
+                    <v-btn to="/contributions" exact text>HOME</v-btn>
+                    <v-btn to="/contributions/newest" text>NEWEST</v-btn>
+                    <v-btn to="/contributions/ask" text>ASK</v-btn>
+                    <v-btn to="/contributions/threads" text>THREADS</v-btn>
+                    <v-btn to="/contributions/new" text>SUBMIT</v-btn>
                 </td>
                 <td id="login">
                     <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
@@ -38,10 +38,6 @@
             }
         }
     }
-
-
-
-
 </script>
 
 <style>
@@ -52,9 +48,6 @@
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
-    }
-    router-link{
-        color: white;
     }
     table{
         background-color: #ff6600;
@@ -73,6 +66,23 @@
         border-radius: 10px;
         padding: 10px 20px 25px 20px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    .clink{
+        color: gray;
+    }
+    #list{
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        background-color: #f6f6ef;
+    }
+    .clink:hover{
+        text-decoration: underline;
     }
 
 </style>
