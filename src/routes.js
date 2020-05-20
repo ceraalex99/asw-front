@@ -2,6 +2,7 @@ import ContributionList from "@/components/contributions/ContributionList";
 import ContributionShow from "@/components/contributions/ContributionShow";
 import ContributionNew from "@/components/contributions/ContributionNew";
 import ContributionEdit from "@/components/contributions/ContributionEdit";
+import Login from "@/components/Login";
 
 
 export default [
@@ -9,5 +10,6 @@ export default [
     {name: 'contributionList', path: '/contributions', component: ContributionList},
     {name: 'contributionNew', path: '/contributions/new', component: ContributionNew},
     {name: 'contributionShow', path: '/contributions/:id', component: ContributionShow},
-    {name: 'contributionEdit', path: '/contributions/:id/edit', component: ContributionEdit}
+    {name: 'contributionEdit', path: '/contributions/:id/edit', component: ContributionEdit},
+    {name: 'login', path: '/login', component: Login}
 ]
