@@ -13,7 +13,8 @@
                     <v-btn to="/contributions/new" text>SUBMIT</v-btn>
                 </td>
                 <td id="login">
-                    <v-btn to="/login" text>LOGIN</v-btn>
+                    <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
+
                 </td>
             </tr>
         </table>
@@ -25,7 +26,18 @@
 
 
     export default {
-        name: 'App',
+        data: () => ({
+            clientId: '749235916788-tehnfrvlnukhrgdg3fpp2nuiskm4nri3.apps.googleusercontent.com'
+        }),
+        methods: {
+            OnGoogleAuthSuccess (idToken) {
+                console.log(idToken)
+                // Receive the idToken and make your magic with the backend
+            },
+            OnGoogleAuthFail (error) {
+                console.log(error)
+            }
+        }
     }
 </script>
 
@@ -47,8 +59,14 @@
     #routes{
         text-align: left;
     }
-    #login{
-        text-align: right;
+    .google-signin-button {
+        color: white;
+        background-color: red;
+        height: 50px;
+        font-size: 16px;
+        border-radius: 10px;
+        padding: 10px 20px 25px 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
     a{
         text-decoration: none;
