@@ -1,11 +1,17 @@
 <template>
     <v-list id="list" three-line>
-        <v-list-item v-for="contribution of contributions" :key="contribution.id">
-            <v-list-item-content>
-                <v-list-item-title><a :href="contribution.url">{{contribution.title}}</a></v-list-item-title>
-                <v-list-item-subtitle>{{contribution.points}} points by {{contribution.author}} <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item>
+        <template v-for="(contribution, index) in contributions">
+            <v-list-item :key="contribution.id" class="item">
+                <v-list-item-content>
+                    <v-list-item-title><a :href="contribution.url">{{contribution.title}}</a></v-list-item-title>
+                    <v-list-item-subtitle>{{contribution.points}} points by {{contribution.author}} <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider
+                    v-if="index + 1 < contributions.length"
+                    :key="index"
+            ></v-divider>
+        </template>
     </v-list>
 </template>
 
