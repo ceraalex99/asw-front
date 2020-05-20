@@ -6,11 +6,11 @@
         <table>
             <tr>
                 <td id="routes">
-                    <v-btn to="/contributions" text>HOME</v-btn>
-                    <v-btn to="/newest" text>NEWEST</v-btn>
-                    <v-btn to="/ask" text>ASK</v-btn>
-                    <v-btn to="/threads" text>THREADS</v-btn>
-                    <v-btn to="/submit" text>SUBMIT</v-btn>
+                    <v-btn to="/contributions" exact text>HOME</v-btn>
+                    <v-btn to="/contributions/newest" text>NEWEST</v-btn>
+                    <v-btn to="/contributions/ask" text>ASK</v-btn>
+                    <v-btn to="/contributions/threads" text>THREADS</v-btn>
+                    <v-btn to="/contributions/new" text>SUBMIT</v-btn>
                 </td>
                 <td id="login">
                     <v-btn to="/login" text>LOGIN</v-btn>
@@ -38,9 +38,6 @@
         color: #2c3e50;
         margin-top: 60px;
     }
-    router-link{
-        color: white;
-    }
     table{
         background-color: #ff6600;
         width: 85%;
@@ -52,5 +49,22 @@
     }
     #login{
         text-align: right;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    .clink{
+        color: gray;
+    }
+    #list{
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        background-color: #f6f6ef;
+    }
+    .clink:hover{
+        text-decoration: underline;
     }
 </style>
