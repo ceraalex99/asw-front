@@ -67,4 +67,11 @@
     .clink:hover{
         text-decoration: underline;
     }
+    #container{
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        background-color: #f6f6ef;
+    }
 </style>
