@@ -4,7 +4,10 @@
             <v-list-item :key="contribution.id" class="item">
                 <v-list-item-content>
                     <v-list-item-title><a :href="contribution.url">{{contribution.title}}</a></v-list-item-title>
-                    <v-list-item-subtitle>{{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}}</router-link> <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
+                    <v-list-item-subtitle>{{contribution.points}} points by
+                        <router-link class="clink" :to="{name: 'userEdit', params: { id: contribution.user_id }}" v-if="owned(contribution)">{{contribution.author}}</router-link>
+                        <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}" v-else>{{contribution.author}}</router-link>
+                        <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}"> {{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon v-if="!owned(contribution)">
                     <v-icon v-if="contribution.liked" @click="unlike(contribution)">mdi-heart</v-icon>

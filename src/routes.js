@@ -6,8 +6,8 @@ import ContributionNewest from "@/components/contributions/ContributionNewest";
 import ContributionAsk from "@/components/contributions/ContributionAsk";
 import ContributionThreads from "@/components/contributions/ContributionThreads";
 import UserShow from "@/components/users/UserShow";
-import CommentShow from '@/components/comments/CommentShow'
-
+import CommentShow from '@/components/comments/CommentShow';
+import UserEdit from '@/components/users/UserEdit';
 
 
 export default [
@@ -19,6 +19,7 @@ export default [
     {name: 'contributionAsk', path: '/contributions/ask', component: ContributionAsk},
     {name: 'contributionThreads', path: '/contributions/threads', component: ContributionThreads},
     {name: 'contributionShow', path: '/contributions/:id', component: ContributionShow},
+    {name: 'userEdit', path: '/users/:id/edit', component: UserEdit},
     {name: 'userShow', path: '/users/:id', component: UserShow},
     {name: 'commentShow', path: '/comments/:id', component: CommentShow}
 ]

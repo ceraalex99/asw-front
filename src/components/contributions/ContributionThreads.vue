@@ -5,7 +5,10 @@
                 <v-list-item-content>
                     <v-list-item-title>{{contribution.text}}</v-list-item-title>
                     <v-list-item-subtitle>
-                        {{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}}</router-link> <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link> | <router-link v-if="contribution.type==='Comment'" class="clink" :to="{name: 'contributionShow', params: { id: contribution.contribution_id }}">parent</router-link><router-link v-else class="clink" :to="{name: 'commentShow', params: { id: contribution.contribution_id }}">parent</router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.post_id }}">original post</router-link>
+                        {{contribution.points}} points by
+                        <router-link class="clink" :to="{name: 'userEdit', params: { id: contribution.user_id }}" v-if="owned(contribution)">{{contribution.author}}</router-link>
+                        <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}" v-else>{{contribution.author}}</router-link>
+                        <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}"> {{contribution.created_at | humanReadableTime}}</router-link> | <router-link v-if="contribution.type==='Comment'" class="clink" :to="{name: 'contributionShow', params: { id: contribution.contribution_id }}">parent</router-link><router-link v-else class="clink" :to="{name: 'commentShow', params: { id: contribution.contribution_id }}">parent</router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.post_id }}">original post</router-link>
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -40,6 +43,11 @@
             }).catch(e => {
                 this.errors.push(e);
             });
+        },
+        methods: {
+            owned(contribution) {
+                return (contribution.user_id == localStorage['userId'])
+            }
         }
     }
 </script>
