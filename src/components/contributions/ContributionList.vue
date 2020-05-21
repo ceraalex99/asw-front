@@ -4,8 +4,12 @@
             <v-list-item :key="contribution.id" class="item">
                 <v-list-item-content>
                     <v-list-item-title><a :href="contribution.url">{{contribution.title}}</a></v-list-item-title>
-                    <v-list-item-subtitle>{{contribution.points}} points by {{contribution.author}} <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
+                    <v-list-item-subtitle>{{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}}</router-link> <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-icon v-if="!owned(contribution)">
+                    <v-icon v-if="contribution.liked" @click="unlike(contribution)">mdi-heart</v-icon>
+                    <v-icon v-else @click="like(contribution)" @selected=false>mdi-heart-outline</v-icon>
+                </v-list-item-icon>
             </v-list-item>
             <v-divider
                     v-if="index + 1 < contributions.length"
@@ -39,6 +43,33 @@
             }).catch(e => {
                 this.errors.push(e);
             });
+        },
+        methods: {
+            like(contribution) {
+                HTTP.post('/posts/'+contribution.id+'/like',null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/posts',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.contributions = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            unlike(contribution) {
+                HTTP.delete('/posts/'+contribution.id+'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/posts',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.contributions = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            owned(contribution) {
+                return (contribution.user_id == localStorage['userId'])
+            }
         }
     }
 </script>
