@@ -1,55 +1,57 @@
-<template>
-    <v-list id="list" three-line>
-        <v-form ref="form" v-model="valid">
-            <v-container>
-                <v-row>
+<template class="vapp">
+    <v-form ref="form" v-model="valid" class="vapp">
+        <br><br><br><br><br>
+        <v-container>
+            <v-row>
+                <div class="spacer"></div>
+                <v-text-field
+                        v-model="title"
+                        :rules="titleRules"
+                        label="Title"
+                        required
+                        autofocus
+                        clearable
+                ></v-text-field>
+                <div class="spacer"></div>
+            </v-row>
+            <v-row>
+                <div class="radios">
+                    <v-radio-group v-model="select" >
+                        <v-radio label="ASK" value="ASK" ></v-radio>
+                        <v-radio label="URL" value="URL"></v-radio>
+                    </v-radio-group>
+                </div>
+            </v-row>
+            <v-row>
+                <div class="spacer"></div>
+                <v-textarea
+                        v-if = "select === 'ASK'"
+                        v-model="text"
+                        :rules="textRules"
+                        label="Text"
+                        background-color="#e6e6df"
+                        filled
+                        required
+                        clearable
+                        auto-grow
+                ></v-textarea>
+                <v-text-field
+                        v-else-if = "select === 'URL'"
+                        v-model="url"
+                        :rules="urlRules"
+                        label="URL"
+                        required
+                ></v-text-field>
+                <div class="spacer"></div>
+            </v-row>
+            <v-row>
+                <div class="spacer"></div>
+                <v-btn outlined @click="send()">SUBMIT</v-btn>
+                <div class="spacer"></div>
+            </v-row>
+        </v-container>
+    </v-form>
 
-                    <select v-model="selected">
-                        <option disabled value="">Seleccione un tipo de contribucion</option>
-                        <option>ASK</option>
-                        <option>URL</option>
-                    </select>
-
-                    <v-col
-                            cols="12"
-                            md="4"
-                    >
-                        <v-text-field
-                                v-model="title"
-                                :rules="textRules"
-                                label="title"
-                                required
-                        ></v-text-field>
-                    </v-col>
-
-                    <v-col
-                            cols="12"
-                            md="4" v-if = "selected === 'ASK'"
-                    >
-                        <v-text-field
-                                v-model="text"
-                                :rules="textRules"
-                                label="text"
-                                required
-                        ></v-text-field>
-
-                    </v-col>
-                    <v-col
-                            cols="12"
-                            md="4"  v-else-if = "selected === 'URL'"
-                    >
-                        <v-text-field
-                                v-model="url"
-                                :rules="urlRules"
-                                label="url"
-                                required
-                        ></v-text-field>
-                    </v-col>
-                    <a href="#" class="btn btn-primary" v-on:click="send">Create</a>
-                </v-row>
-            </v-container>
-        </v-form>
-    </v-list>
 </template>
 
 <script>
@@ -57,9 +59,12 @@
     export default {
         data: () => ({
             valid: false,
-            selected: '',
+            select: 'ASK',
             title: '',
             text: '',
+            titleRules: [
+                v => !!v || 'Title is required',
+            ],
             textRules: [
                 v => !!v || 'Text is required',
             ],
@@ -72,20 +77,20 @@
         methods:    {
             send:   function () {
                 if(this.$refs.form.validate()) {
-                    var data;
-                    if (this.selected === 'ASK') {
-                        data = {
+                    let formData;
+                    if (this.select === 'ASK') {
+                        formData = {
                             title: this.title,
                             text: this.text
                         }
                     } else {
-                        data = {
+                        formData = {
                             title: this.title,
                             url: this.url
                         }
                     }
 
-                    HTTP.post('/posts', data, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
+                    HTTP.post('/posts', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
                         this.errors.push(e);
                     });
                     this.$router.push("/contributions/newest");
@@ -97,5 +102,7 @@
 
 
 <style scoped>
-
+    .radios{
+        margin:auto;
+    }
 </style>
