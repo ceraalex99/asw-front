@@ -34,7 +34,7 @@
             }
         },
         created() {
-            HTTP.get('/posts/newest').then(response => {
+            HTTP.get('/posts/newest',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.contributions = response.data
             }).catch(e => {
                 this.errors.push(e);

@@ -3,11 +3,12 @@ import routes from "@/routes";
 import VueRouter from 'vue-router'
 import App from '@/App'
 import vuetify from '@/plugins/vuetify'
-import GoogleSignInButton from 'vue-google-signin-button-directive'
+import GSignInButton from 'vue-google-signin-button'
 
 
 Vue.config.productionTip = false
 
+Vue.use(GSignInButton)
 
 const router = new VueRouter({
  mode: 'history',
@@ -19,7 +20,6 @@ Vue.use(VueRouter)
 new Vue({
  render: h => h(App),
  router,
- vuetify,
- GoogleSignInButton,
+ vuetify
 }).$mount('#app')
 
