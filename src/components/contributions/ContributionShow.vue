@@ -15,7 +15,7 @@
                 </v-btn>
                 <br><td></td><br>
                 <template v-for="c in comments">
-                    <tree-menu :label="c.text" :replies="c.respostes" :depth="0"></tree-menu>
+                    <tree-menu :key="c.id" :label="c.text" :replies="c.respostes" :depth="0"></tree-menu>
                 </template>
             </v-col>
         </v-row>
