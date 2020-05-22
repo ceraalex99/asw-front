@@ -6,6 +6,9 @@
                     v-bind:key="reply.id"
                     v-for="reply in replies"
                     :label="reply.text"
+                    :author="reply.author"
+                    :created-at="reply.createdAt"
+                    :points="reply.points"
                     :replies="reply.respostes"
                     :depth="depth +1"
             ></tree-menu>
@@ -15,7 +18,7 @@
 
 <script>
     export default {
-        props: ['label', 'replies', 'depth'],
+        props: ['label', 'author', 'createdAt', 'points', 'replies', 'depth'],
         name: 'tree-menu',
         computed: {
             indent() {
