@@ -20,7 +20,7 @@
                 <v-btn @click="send()">ADD COMMENT</v-btn>
                 <br><td></td><br>
                 <template v-for="c in comments">
-                    <tree-menu :key="c.id" :label="c.text" :replies="c.respostes" :depth="0"></tree-menu>
+                    <tree-menu :key="c.id" :id=c.id :label="c.text" :author="c.author" :user_id="c.user_id" :created_at="c.created_at" :points="c.points" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
                 </template>
             </v-col>
         </v-row>
