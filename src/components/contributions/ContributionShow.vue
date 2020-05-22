@@ -41,7 +41,7 @@
                 contribution: {},
                 errors_contributions: [],
                 comments: [],
-                errors_commets: [],
+                errors_comments: [],
 
             }
         },
