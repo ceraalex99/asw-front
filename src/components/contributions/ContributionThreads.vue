@@ -8,7 +8,7 @@
                         {{contribution.points}} points by
                         <router-link class="clink" :to="{name: 'userEdit', params: { id: contribution.user_id }}" v-if="owned(contribution)">{{contribution.author}}</router-link>
                         <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}" v-else>{{contribution.author}}</router-link>
-                        <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}"> {{contribution.created_at | humanReadableTime}}</router-link> | <router-link v-if="contribution.type==='Comment'" class="clink" :to="{name: 'contributionShow', params: { id: contribution.contribution_id }}">parent</router-link><router-link v-else class="clink" :to="{name: 'commentShow', params: { id: contribution.contribution_id }}">parent</router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.post_id }}">original post</router-link>
+                        <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}"> {{contribution.created_at | humanReadableTime}}</router-link> | <router-link v-if="contribution.type==='Comment'" class="clink" :to="{name: 'contributionShow', params: { id: contribution.post_id }}">parent</router-link><router-link v-else class="clink" :to="{name: 'commentShow', params: { id: contribution.contribution_id }}">parent</router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.post_id }}">original post</router-link>
                     </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon>
@@ -54,7 +54,7 @@
             remove(contribution) {
                 if(contribution.type === 'Reply'){
                     HTTP.delete('/replies/'+contribution.id,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
-                        HTTP.get('/users'+localStorage['userId']+'/comments',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        HTTP.get('/users/'+localStorage['userId']+'/comments',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                             this.contributions = response.data
                         }).catch(e => {
                             this.errors.push(e);
@@ -65,7 +65,7 @@
                 }
                 else if(contribution.type === 'Comment'){
                     HTTP.delete('/comments/'+contribution.id,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
-                        HTTP.get('/users'+localStorage['userId']+'/comments',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        HTTP.get('/users/'+localStorage['userId']+'/comments',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                             this.contributions = response.data
                         }).catch(e => {
                             this.errors.push(e);
