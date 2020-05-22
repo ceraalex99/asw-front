@@ -6,16 +6,21 @@
                 <td> {{ contribution.title }} </td>
                 <h6><td>{{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></td></h6><br>
                 <td> {{contribution.text}} </td><br>
-                <v-textarea
-                        solo
-                        name="inputComment"
-                ></v-textarea>
-                <v-btn @click.native="addANewComment()">
-                    add comment
-                </v-btn>
+                <v-form ref="form" v-model="valid" class="vapp">
+                    <v-textarea
+                            solo
+                            v-model="comment"
+                            :rules="commnetRules"
+                            name="inputComment"
+                            required
+                            clearable
+                            autofocus
+                    ></v-textarea>
+                </v-form>
+                <v-btn @click="send()">ADD COMMENT</v-btn>
                 <br><td></td><br>
                 <template v-for="c in comments">
-                    <tree-menu :key="c.id" :label="c.text" :replies="c.respostes" :depth="0"></tree-menu>
+                    <tree-menu :key="c.id" :id="c.id" :author="c.author" :user_id="c.user_id" :created-at="c.created_at" :points="c.points" :label="c.text" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
                 </template>
             </v-col>
         </v-row>
@@ -37,11 +42,15 @@
         },
         data() {
             return {
-                msg: "Hey",
+                valid: false,
+                comment: '',
                 contribution: {},
                 errors_contributions: [],
                 comments: [],
                 errors_commets: [],
+                commnetRules: [
+                    v => !!v || '',
+                ],
 
             }
         },
@@ -60,9 +69,21 @@
             });
         },
         methods :{
-            addANewComment : async function (){
+            send:   function () {
+                if(this.$refs.form.validate()) {
+                    let formData;
+                    formData = {
+                        text: this.comment,
+                        post_id: this.contribution.id,
+                    }
 
-            },
+                    HTTP.post('/comments', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
+                        this.errors.push(e);
+                    });
+
+                    location.reload();
+                }
+            }
         }
     }
 </script>
