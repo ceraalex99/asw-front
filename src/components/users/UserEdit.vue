@@ -1,10 +1,12 @@
 <template>
-    <div></div>
+    <div id="list">
+        
+    </div>
 </template>
 
 <script>
     export default {
-        name: "UserShow"
+        name: "UserEdit"
     }
 </script>
 
