@@ -13,6 +13,10 @@
                     <v-icon v-if="contribution.liked" @click="unlike(contribution)">mdi-heart</v-icon>
                     <v-icon v-else @click="like(contribution)" @selected=false>mdi-heart-outline</v-icon>
                 </v-list-item-icon>
+                <v-list-item-icon v-else>
+                    <v-icon>mdi-pencil-outline</v-icon>
+                    <v-icon>mdi-trash-can-outline</v-icon>
+                </v-list-item-icon>
             </v-list-item>
             <v-divider
                     v-if="index + 1 < contributions.length"

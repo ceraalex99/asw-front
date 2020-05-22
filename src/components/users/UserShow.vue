@@ -1,74 +1,22 @@
 <template>
-    <v-list id="list" three-line>
-        <v-container
-                style="margin-left: 30px"
-        >
-            <v-row>
-                <v-col
-                        cols="8"
-                        md="1"
-                        style="color: grey"
-                >
-                    user:
-                </v-col>
-                <v-col
-                        cols="8"
-                        md="4"
-                        style="color: green"
-                >
-                    {{this.user.name}}
-                </v-col>
 
-            </v-row>
-            <v-row>
-                <v-col
-                        cols="8"
-                        md="1"
-                        style="color: grey"
-                >
-                    created:
-                </v-col>
-                <v-col
-                        cols="8"
-                        md="4"
-                >
-                    {{this.user.created_at | humanReadableTime}}
-                </v-col>
+        <v-simple-table style="background-color: #f6f6ef;">
+            <tbody>
+                <tr>
+                    <td class="greytext">user:</td><td><router-link :to=$route.path>{{this.user.name}}</router-link></td>
+                </tr>
+                <tr>
+                    <td class="greytext">created:</td><td>{{this.user.created_at | humanReadableTime}}</td>
+                </tr>
+                <tr>
+                    <td class="greytext">karma:</td><td>{{this.user.karma}}</td>
+                </tr>
+                <tr>
+                    <td class="greytext">about:</td><td>{{this.user.about}}</td>
+                </tr>
+            </tbody>
+        </v-simple-table>
 
-            </v-row>
-            <v-row>
-                <v-col
-                        cols="8"
-                        md="1"
-                        style="color: grey"
-                >
-                    karma:
-                </v-col>
-                <v-col
-                        cols="8"
-                        md="4"
-                >
-                    {{this.user.karma}}
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                        cols="8"
-                        md="1"
-                        style="color: grey"
-                >
-                    about:
-                </v-col>
-                <v-col
-                        cols="8"
-                        md="4"
-                >
-                    {{this.user.about}}
-                </v-col>
-
-            </v-row>
-        </v-container>
-    </v-list>
 </template>
 
 <script>
@@ -102,5 +50,7 @@
 </script>
 
 <style scoped>
-
+    .greytext{
+        color: grey;
+    }
 </style>

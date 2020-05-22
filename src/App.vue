@@ -3,7 +3,7 @@
     <v-app :style="{background: $vuetify.theme.themes['light'].background}">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-        <table>
+        <table id="appheaders">
             <tr>
                 <td id="routes">
                     <v-btn to="/contributions" exact text color="white">HOME</v-btn>
@@ -13,7 +13,7 @@
                     <v-btn to="/contributions/new" text color="white">SUBMIT</v-btn>
                 </td>
                 <td v-if="checkLogged()" class="login">
-                    <v-btn :to="{name: 'userShow', params: { id: current_user_id() }}" text color="white">{{current_user_name()}}</v-btn>
+                    <v-btn :to="{name: 'userEdit', params: { id: current_user_id() }}" text color="white">{{current_user_name()}}</v-btn>
                 </td>
                 <td class="login">
                     <template v-if="checkLogged()">
@@ -93,7 +93,7 @@
         text-align: center;
         margin-top: 0;
     }
-    table{
+    #appheaders{
         background-color: #1976d2;
         width: 100%;
         margin-left: auto;
