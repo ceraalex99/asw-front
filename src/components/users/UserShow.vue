@@ -3,7 +3,7 @@
         <v-simple-table style="background-color: #f6f6ef;">
             <tbody>
                 <tr>
-                    <td class="greytext">user:</td><td><router-link :to=$route.path>{{this.user.name}}</router-link></td>
+                    <td class="greytext">user:</td><td><router-link :to=$route.path class="bluetext">{{this.user.name}}</router-link></td>
                 </tr>
                 <tr>
                     <td class="greytext">created:</td><td>{{this.user.created_at | humanReadableTime}}</td>
@@ -52,5 +52,8 @@
 <style scoped>
     .greytext{
         color: grey;
+    }
+    .bluetext{
+        color: #1976d2 !important;
     }
 </style>

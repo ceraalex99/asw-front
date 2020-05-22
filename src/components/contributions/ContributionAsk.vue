@@ -13,6 +13,10 @@
                     <v-icon v-if="contribution.liked" @click="unlike(contribution)">mdi-heart</v-icon>
                     <v-icon v-else @click="like(contribution)" @selected=false>mdi-heart-outline</v-icon>
                 </v-list-item-icon>
+                <v-list-item-icon v-else>
+                    <router-link :to="{name: 'contributionEdit', params: { id: contribution.id }}"><v-icon>mdi-pencil-outline</v-icon></router-link>
+                    <v-icon @click="remove(contribution)">mdi-trash-can-outline</v-icon>
+                </v-list-item-icon>
             </v-list-item>
             <v-divider
                     v-if="index + 1 < contributions.length"
@@ -70,6 +74,17 @@
             },
             owned(contribution) {
                 return (contribution.user_id == localStorage['userId'])
+            },
+            remove(contribution) {
+                HTTP.delete('/posts/'+contribution.id,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/posts/ask',{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.contributions = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
             }
         }
     }
