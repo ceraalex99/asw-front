@@ -15,11 +15,20 @@
                 <div class="spacer"></div>
             </v-row>
             <v-row>
+                <div class="radios">
+                    <v-radio-group v-model="select" disabled>
+                        <v-radio label="ASK" value="ask" ></v-radio>
+                        <v-radio label="URL" value="url"></v-radio>
+                    </v-radio-group>
+                </div>
+            </v-row>
+            <v-row>
                 <div class="spacer"></div>
                 <v-textarea
                         v-if = "tipo === 'ask'"
                         v-model="text"
                         :rules="textRules"
+                        label="Text"
                         background-color="#e6e6df"
                         filled
                         required
@@ -30,6 +39,7 @@
                         v-else-if = "tipo === 'url'"
                         v-model="url"
                         :rules="urlRules"
+                        label="URL"
                         required
                 ></v-text-field>
                 <div class="spacer"></div>
@@ -50,6 +60,7 @@
         name: "ContributionEdit",
         data: () => ({
             valid: false,
+            select: '',
             tipo: '',
             title: '',
             text: '',
@@ -69,6 +80,7 @@
             HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.title = response.data.title;
                 this.tipo = response.data.tipo;
+                this.select = response.data.tipo;
                 if(response.data.tipo === 'ask'){
                     this.text = response.data.text;
                 }
@@ -104,5 +116,7 @@
 </script>
 
 <style scoped>
-
+    .radios{
+        margin:auto;
+    }
 </style>
