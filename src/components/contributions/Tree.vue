@@ -49,29 +49,24 @@
         },
         methods: {
             like(id, type) {
-                if(type == 'comment'){
-                    HTTP.post('/comments/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
+                if(type === 'comment'){
+                    HTTP.post('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}});
                 }
                 else { //type = reply
-                    HTTP.post('/replies/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
+                    HTTP.post('/replies/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}});
                 }
+                location.reload();
             },
             unlike(id, type) {
-                if(type == 'comment'){
-                    HTTP.delete('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
-                        location.reload();
-                    }).catch(e => {
-                        this.errors.push(e);
-                    });
+                if(type === 'comment'){
+                    HTTP.delete('/comments/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
                 }
                 else { //type = reply
-                    HTTP.delete('/replies/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
-                        location.reload();
-                    }).catch(e => {
-                        this.errors.push(e);
-                    });
+                    HTTP.delete('/replies/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
                 }
+                location.reload();
             },
+
             owned(user_id) {
                 return (user_id == localStorage['userId'])
             }
