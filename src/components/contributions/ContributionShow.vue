@@ -10,9 +10,13 @@
                         solo
                         name="inputComment"
                 ></v-textarea>
-                <v-btn>
+                <v-btn @click.native="addANewComment()">
                     add comment
-                </v-btn><br>
+                </v-btn>
+                <br><td></td><br>
+                <template v-for="c in comments">
+                    <tree-menu :label="c.text" :replies="c.respostes" :depth="0"></tree-menu>
+                </template>
             </v-col>
         </v-row>
     </v-container>
@@ -21,9 +25,11 @@
 <script>
     import {HTTP} from '@/components/http-common'
     import moment from 'moment'
+    import TreeMenu from "./Tree";
 
     export default {
         name: "ContributionShow",
+        components: {TreeMenu},
         filters: {
             humanReadableTime: function(value) {
                 return moment(value).fromNow();
@@ -33,16 +39,30 @@
             return {
                 msg: "Hey",
                 contribution: {},
+                errors_contributions: [],
                 comments: [],
-                errors: [],
+                errors_commets: [],
+
             }
         },
         created() {
-            HTTP.get('/posts/' + this.$route.params.id).then(response => {
+            HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.contribution = response.data;
             }).catch(e => {
-                this.errors.push(e);
+                this.errors_contributions.push(e);
             });
+
+            HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                this.comments = response.data;
+                this.$forceUpdate();
+            }).catch(e => {
+                this.errors_comments.push(e);
+            });
+        },
+        methods :{
+            addANewComment : async function (){
+
+            },
         }
     }
 </script>

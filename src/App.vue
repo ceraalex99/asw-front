@@ -127,7 +127,7 @@
     }
 
     #container{
-        width: 85%;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
         text-align: left;
