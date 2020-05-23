@@ -31,7 +31,6 @@
                         auto-grow
                         filled
                         clearable
-                        autofocus
                 ></v-textarea>
                 <div class="spacer"></div>
             </v-row>
@@ -41,7 +40,7 @@
         </div>
         <br><br><br>
         <v-list three-line :key="c.id" v-for="(c, index) in comments" style="background-color: #f6f6ef !important;">
-            <tree-menu :key="c.id" :id=c.id :label="c.text" :author="c.author" :user_id="c.user_id" :created_at="c.created_at" :points="c.points" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
+            <tree-menu :key="c.id" :id=c.id :label="c.text" :like="like" :unlike="unlike" :author="c.author" :user_id="c.user_id" :created_at="c.created_at" :points="c.points" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
             <v-divider v-if="index + 1 < comments.length"
                        :key="index"></v-divider>
         </v-list>
@@ -69,8 +68,8 @@
                 comments: [],
                 errors_comments: [],
                 commentRules: [
-                    v => !!v || '',
-                ],
+                    v => !!v || ''
+                ]
             }
         },
         created() {
@@ -81,7 +80,6 @@
             });
             HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.comments = response.data;
-                this.$forceUpdate();
             }).catch(e => {
                 this.errors_comments.push(e);
             });
@@ -94,10 +92,81 @@
                         text: this.comment,
                         post_id: this.contribution.id,
                     }
-                    HTTP.post('/comments', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
+                    HTTP.post('/comments', formData, {headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                        this.comment = ''
+                        HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.contribution = response.data;
+                        }).catch(e => {
+                            this.errors_contributions.push(e);
+                        });
+                        HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.comments = response.data;
+                        }).catch(e => {
+                            this.errors_comments.push(e);
+                        });
+                    }).catch(e => {
                         this.errors.push(e);
                     });
-                    location.reload();
+                }
+            },
+            like(id, type) {
+                if(type === 'Comment'){
+                    HTTP.post('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                        HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.contribution = response.data;
+                        }).catch(e => {
+                            this.errors_contributions.push(e);
+                        });
+                        HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.comments = response.data;
+                        }).catch(e => {
+                            this.errors_comments.push(e);
+                        });
+                    });
+                }
+                else { //type = reply
+                    HTTP.post('/replies/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                        HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.contribution = response.data;
+                        }).catch(e => {
+                            this.errors_contributions.push(e);
+                        });
+                        HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.comments = response.data;
+                        }).catch(e => {
+                            this.errors_comments.push(e);
+                        });
+                    });
+                }
+            },
+            unlike(id, type) {
+                if(type === 'Comment'){
+                    HTTP.delete('/comments/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                        HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.contribution = response.data;
+                        }).catch(e => {
+                            this.errors_contributions.push(e);
+                        });
+                        HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.comments = response.data;
+                        }).catch(e => {
+                            this.errors_comments.push(e);
+                        });
+                    });
+                }
+                else { //type = reply
+                    HTTP.delete('/replies/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                        HTTP.get('/posts/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.contribution = response.data;
+                        }).catch(e => {
+                            this.errors_contributions.push(e);
+                        });
+                        HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                            this.comments = response.data;
+                        }).catch(e => {
+                            this.errors_comments.push(e);
+                        });
+                    });
                 }
             }
         }
