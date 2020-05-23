@@ -3,9 +3,8 @@
         <v-list-item two-line>
             <v-list-item-content>
                 <v-list-item-subtitle>
-                    {{reply.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: reply.user_id }}">{{reply.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}"> | parent </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}">| on: original post</router-link>
+                    {{reply.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: reply.user_id }}">{{reply.author}} </router-link> | <router-link v-if= "reply.parent_type ==='Comment'" class="clink" :to="{name: 'commentShow', params: { id: reply.contribution_id }}">parent</router-link><router-link v-else-if= "reply.parent_type ==='Reply'" class="clink" :to="{name: 'replyShow', params: { id: reply.contribution_id }}">parent</router-link> | on: <router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}">original post</router-link>
                 </v-list-item-subtitle>
-
             </v-list-item-content>
 
         </v-list-item>
