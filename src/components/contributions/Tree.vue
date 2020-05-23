@@ -15,6 +15,9 @@
                     <v-icon v-if="liked" @click="unlike(id, type)" color="red">mdi-heart</v-icon>
                     <v-icon v-else @click="like(id, type)" @selected=false>mdi-heart-outline</v-icon>
                 </v-list-item-icon>
+                <v-list-item-icon v-else>
+                    <v-icon @click="remove(id, type)" color="red">mdi-trash-can-outline</v-icon>
+                </v-list-item-icon>
             </v-list-item>
         </div>
             <tree-menu
@@ -48,7 +51,7 @@
         },
         methods: {
             like(id, type) {
-                if(type === 'comment'){
+                if(type === 'Comment'){
                     HTTP.post('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}});
                 }
                 else { //type = reply
@@ -57,7 +60,7 @@
                 location.reload();
             },
             unlike(id, type) {
-                if(type === 'comment'){
+                if(type === 'Comment'){
                     HTTP.delete('/comments/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
                 }
                 else { //type = reply
@@ -71,6 +74,15 @@
             },
             indent(depth) {
                 return "margin-left: "+depth*50+"px;"
+            },
+            remove(id, type) {
+                if(type === 'Comment'){
+                    HTTP.delete('/comments/'+ id,{headers: {'Authorization': localStorage['googleId']}});
+                }
+                else { //type = reply
+                    HTTP.delete('/replies/'+ id,{headers: {'Authorization': localStorage['googleId']}});
+                }
+                location.reload();
             }
         }
     }
