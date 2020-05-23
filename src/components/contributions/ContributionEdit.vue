@@ -41,6 +41,7 @@
                         :rules="urlRules"
                         label="URL"
                         required
+                        clearable
                 ></v-text-field>
                 <div class="spacer"></div>
             </v-row>

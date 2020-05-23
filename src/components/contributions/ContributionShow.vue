@@ -6,22 +6,28 @@
                 <td> {{ contribution.title }} </td>
                 <h6><td>{{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></td></h6><br>
                 <td> {{contribution.text}} </td><br>
-                <v-form ref="form" v-model="valid" class="vapp">
+                <v-form ref="form" v-model="valid" class="vapp" lazy-validation>
                     <v-textarea
-                            solo
                             v-model="comment"
-                            :rules="commnetRules"
+                            :rules="commentRules"
                             name="inputComment"
-                            required
+                            label="Comment"
+                            filled
                             clearable
                             autofocus
+                            auto-grow
                     ></v-textarea>
                 </v-form>
                 <v-btn @click="send()">ADD COMMENT</v-btn>
                 <br><td></td><br>
-                <template v-for="c in comments">
-                    <tree-menu :key="c.id" :id=c.id :label="c.text" :author="c.author" :user_id="c.user_id" :created_at="c.created_at" :points="c.points" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
-                </template>
+                <v-treeview
+                        item-children="respostes"
+                        hoverable
+                        open-all
+                        item-text="text"
+                        :items="comments"
+                >
+                </v-treeview>
             </v-col>
         </v-row>
     </v-container>
@@ -30,11 +36,9 @@
 <script>
     import {HTTP} from '@/components/http-common'
     import moment from 'moment'
-    import TreeMenu from "./Tree";
 
     export default {
         name: "ContributionShow",
-        components: {TreeMenu},
         filters: {
             humanReadableTime: function(value) {
                 return moment(value).fromNow();
@@ -47,8 +51,8 @@
                 contribution: {},
                 errors_contributions: [],
                 comments: [],
-                errors_commets: [],
-                commnetRules: [
+                errors_comments: [],
+                commentRules: [
                     v => !!v || '',
                 ],
 

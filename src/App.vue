@@ -1,9 +1,9 @@
 
-<template>
+<template class="viewport">
     <v-app :style="{background: $vuetify.theme.themes['light'].background}">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-        <table id="appheaders">
+        <v-simple-table class="appheaders">
             <tr>
                 <td id="routes">
                     <v-btn to="/contributions" exact text color="white">HOME</v-btn>
@@ -12,10 +12,9 @@
                     <v-btn to="/contributions/threads" text color="white">THREADS</v-btn>
                     <v-btn to="/contributions/new" text color="white">SUBMIT</v-btn>
                 </td>
-                <td v-if="checkLogged()" class="login">
-                    <v-btn :to="{name: 'userEdit', params: { id: current_user_id() }}" text color="white"><span class="cuttext">{{current_user_name()}}</span></v-btn>
-                </td>
                 <td class="login">
+                    <v-btn v-if="checkLogged()" :to="{name: 'userEdit', params: { id: current_user_id() }}" text color="white">PROFILE</v-btn>
+
                     <template v-if="checkLogged()">
                         <v-btn @click="logout" text color="white">LOGOUT</v-btn>
                     </template>
@@ -32,7 +31,7 @@
 
                 </td>
             </tr>
-        </table>
+        </v-simple-table>
         <router-view :key="componentKey"></router-view>
     </v-app>
 </template>
@@ -86,6 +85,7 @@
 <style>
     html{
         overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -93,11 +93,11 @@
         text-align: center;
         margin-top: 0;
     }
-    #appheaders{
-        background-color: #1976d2;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+    .appheaders{
+        background-color: #1976d2 !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+        border-radius: unset !important;
     }
     #routes{
         text-align: left;
@@ -118,9 +118,6 @@
     }
     .login{
         text-align: right;
-        width: 1%;
-        max-width: 150px;
-
     }
     .clink{
         color: gray !important;
@@ -142,5 +139,9 @@
         overflow: hidden;
         white-space: nowrap;
 
+    }
+    .viewport{
+        width: 100vw;
+        position: absolute;
     }
 </style>
