@@ -1,44 +1,60 @@
 <template>
     <v-container fluid id="container">
-        <v-row>
-            <td></td>
-            <v-col md="4" cols="6">
-                <td> {{ contribution.title }} </td>
-                <h6><td>{{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link></td></h6><br>
-                <td> {{contribution.text}} </td><br>
-                <v-form ref="form" v-model="valid" class="vapp" lazy-validation>
-                    <v-textarea
-                            v-model="comment"
-                            :rules="commentRules"
-                            name="inputComment"
-                            label="Comment"
-                            filled
-                            clearable
-                            autofocus
-                            auto-grow
-                    ></v-textarea>
-                </v-form>
-                <v-btn @click="send()">ADD COMMENT</v-btn>
-                <br><td></td><br>
-                <v-treeview
-                        item-children="respostes"
-                        hoverable
-                        open-all
-                        item-text="text"
-                        :items="comments"
-                >
-                </v-treeview>
-            </v-col>
-        </v-row>
+        <v-list-item two-line>
+            <v-list-item-content>
+                <v-list-item-title>
+                    {{contribution.title}}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                    {{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link>
+                </v-list-item-subtitle>
+
+            </v-list-item-content>
+
+        </v-list-item>
+        <v-list-item>
+            <v-list-item-content>
+                <v-list-item-title>
+                    {{contribution.text}}
+                </v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <br><br><br>
+        <v-form ref="form" v-model="valid">
+            <v-row>
+                <div class="spacer"></div>
+                <v-textarea
+                        v-model="comment"
+                        :rules="commentRules"
+                        name="inputComment"
+                        label="Comment"
+                        auto-grow
+                        filled
+                        clearable
+                        autofocus
+                ></v-textarea>
+                <div class="spacer"></div>
+            </v-row>
+        </v-form>
+        <div style="text-align: center">
+        <v-btn @click="send()" outlined >ADD COMMENT</v-btn>
+        </div>
+        <br><br><br>
+        <v-list three-line :key="c.id" v-for="(c, index) in comments" style="background-color: #f6f6ef !important;">
+            <tree-menu :key="c.id" :id=c.id :label="c.text" :author="c.author" :user_id="c.user_id" :created_at="c.created_at" :points="c.points" :replies="c.respostes" :type="c.type" :liked="c.liked" :depth="0"></tree-menu>
+            <v-divider v-if="index + 1 < comments.length"
+                       :key="index"></v-divider>
+        </v-list>
     </v-container>
 </template>
 
 <script>
     import {HTTP} from '@/components/http-common'
     import moment from 'moment'
-
+    import TreeMenu from "./Tree";
     export default {
         name: "ContributionShow",
+        components: {TreeMenu},
         filters: {
             humanReadableTime: function(value) {
                 return moment(value).fromNow();
@@ -55,7 +71,6 @@
                 commentRules: [
                     v => !!v || '',
                 ],
-
             }
         },
         created() {
@@ -64,7 +79,6 @@
             }).catch(e => {
                 this.errors_contributions.push(e);
             });
-
             HTTP.get('/posts/' + this.$route.params.id + '/comments' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.comments = response.data;
                 this.$forceUpdate();
@@ -80,11 +94,9 @@
                         text: this.comment,
                         post_id: this.contribution.id,
                     }
-
                     HTTP.post('/comments', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
                         this.errors.push(e);
                     });
-
                     location.reload();
                 }
             }
@@ -93,5 +105,4 @@
 </script>
 
 <style scoped>
-
 </style>

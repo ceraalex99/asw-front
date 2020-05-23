@@ -1,17 +1,22 @@
 <template>
     <div class="tree-menu">
-        <div :style="indent">
-            <v-row v-if="!owned(user_id)">
-                {{label}}
-                <v-icon v-if="liked" @click="unlike(id, type)">mdi-heart</v-icon>
-                <v-icon v-else @click="like(id, type)" @selected=false>mdi-heart-outline</v-icon>
-            </v-row>
-            <v-row v-else>
-                {{label}}
-            </v-row>
+
+        <div :style="indent(depth)">
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title >
+                        {{label}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        {{points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: user_id }}">{{author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: id }}">{{created_at | humanReadableTime}}</router-link>
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon v-if="!owned(user_id)">
+                    <v-icon v-if="liked" @click="unlike(id, type)" color="red">mdi-heart</v-icon>
+                    <v-icon v-else @click="like(id, type)" @selected=false>mdi-heart-outline</v-icon>
+                </v-list-item-icon>
+            </v-list-item>
         </div>
-        <h6><td :style="indent">{{points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: user_id }}">{{author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: id }}">{{created_at | humanReadableTime}}</router-link></td></h6><br>
-        <template>
             <tree-menu
                     v-bind:key="reply.id"
                     v-for="reply in replies"
@@ -26,7 +31,6 @@
                     :liked="reply.liked"
                     :depth="depth +1"
             ></tree-menu>
-        </template>
     </div>
 </template>
 
@@ -37,11 +41,6 @@
     export default {
         props: ['id', 'label', 'author', 'user_id','created_at', 'points', 'replies', 'type', 'liked', 'depth'],
         name: 'tree-menu',
-        computed: {
-            indent() {
-                return { transform: `translate(${this.depth * 50}px)`}
-            }
-        },
         filters: {
             humanReadableTime: function(value) {
                 return moment(value).fromNow();
@@ -69,6 +68,9 @@
 
             owned(user_id) {
                 return (user_id == localStorage['userId'])
+            },
+            indent(depth) {
+                return "margin-left: "+depth*50+"px;"
             }
         }
     }
