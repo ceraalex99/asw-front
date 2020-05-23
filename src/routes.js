@@ -8,6 +8,8 @@ import ContributionThreads from "@/components/contributions/ContributionThreads"
 import UserShow from "@/components/users/UserShow";
 import CommentShow from '@/components/comments/CommentShow';
 import UserEdit from '@/components/users/UserEdit';
+import UserSubmissions from "./components/users/UserSubmissions";
+import UserComments from "./components/users/UserComments";
 import ReplyShow from "./components/replies/ReplyShow";
 
 
@@ -22,6 +24,10 @@ export default [
     {name: 'contributionShow', path: '/contributions/:id', component: ContributionShow},
     {name: 'userEdit', path: '/users/:id/edit', component: UserEdit},
     {name: 'userShow', path: '/users/:id', component: UserShow},
+    {name: 'commentShow', path: '/comments/:id', component: CommentShow},
+    {name: 'userSubmissions', path: '/users/:id/submissions', component: UserSubmissions},
+    {name: 'userComments', path: '/users/:id/comments', component: UserComments}
+
     {name: 'commentShow', path: '/comments/:id', component: CommentShow},
     {name: 'replyShow', path: '/replies/:id', component: ReplyShow}
 ]

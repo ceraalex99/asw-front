@@ -23,12 +23,24 @@
         </tr>
         <tr>
             <td>
-
             </td>
+            <td>
+                <router-link class="ulink" :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</router-link>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <router-link class="ulink" :to="{name: 'userComments', params: { id: this.id }}">comments</router-link>
+            </td>
+
+        </tr>
+        <tr>
             <td>
                 <v-btn outlined @click="send()">UPDATE</v-btn>
             </td>
-
         </tr>
         </tbody>
     </v-simple-table>
@@ -84,6 +96,15 @@
     }
     .bluetext{
         color: #1976d2 !important;
+    }
+
+    .ulink{
+        color: black !important;
+        font-size: large;
+    }
+
+    .ulink:hover{
+        text-decoration: underline;
     }
 
 </style>
