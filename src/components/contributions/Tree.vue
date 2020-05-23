@@ -30,16 +30,17 @@
                     :type="reply.type"
                     :liked="reply.liked"
                     :depth="depth +1"
+                    :like = "like"
+                    :unlike="unlike"
             ></tree-menu>
     </div>
 </template>
 
 <script>
     import moment from "moment";
-    import {HTTP} from '@/components/http-common'
 
     export default {
-        props: ['id', 'label', 'author', 'user_id','created_at', 'points', 'replies', 'type', 'liked', 'depth'],
+        props: ['id', 'label', 'author', 'user_id','created_at', 'points', 'replies', 'type', 'liked', 'depth', 'like', 'unlike'],
         name: 'tree-menu',
         filters: {
             humanReadableTime: function(value) {
@@ -47,31 +48,18 @@
             }
         },
         methods: {
-            like(id, type) {
-                if(type === 'comment'){
-                    HTTP.post('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}});
-                }
-                else { //type = reply
-                    HTTP.post('/replies/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}});
-                }
-                location.reload();
-            },
-            unlike(id, type) {
-                if(type === 'comment'){
-                    HTTP.delete('/comments/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
-                }
-                else { //type = reply
-                    HTTP.delete('/replies/'+ id +'/like',{headers: {'Authorization': localStorage['googleId']}});
-                }
-                location.reload();
-            },
-
             owned(user_id) {
                 return (user_id == localStorage['userId'])
             },
             indent(depth) {
                 return "margin-left: "+depth*50+"px;"
             }
+        },
+        like(id, type) {
+            this.like(id, type)
+        },
+        unlike(id, type) {
+            this.unlike(id, type)
         }
     }
 </script>
