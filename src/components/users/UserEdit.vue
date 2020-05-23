@@ -1,49 +1,47 @@
 <template>
-    <v-simple-table style="background-color: #f6f6ef;">
-        <tbody>
-        <tr>
-            <td class="greytext">user:</td><td><router-link :to=$route.path class="bluetext">{{this.user.name}}</router-link></td>
-        </tr>
-        <tr>
-            <td class="greytext">created:</td><td>{{this.user.created_at | humanReadableTime}}</td>
-        </tr>
-        <tr>
-            <td class="greytext">karma:</td><td>{{this.user.karma}}</td>
-        </tr>
-        <tr>
-            <td class="greytext">about:</td>
-            <td>
-                <v-textarea
-                        v-model="about"
-                        background-color="#e6e6df"
-                        auto-grow
-                        clearable
-                ></v-textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            </td>
-            <td>
-                <router-link class="ulink" :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</router-link>
-            </td>
-
-        </tr>
-        <tr>
-            <td>
-            </td>
-            <td>
-                <router-link class="ulink" :to="{name: 'userComments', params: { id: this.id }}">comments</router-link>
-            </td>
-
-        </tr>
-        <tr>
-            <td>
-                <v-btn outlined @click="send()">UPDATE</v-btn>
-            </td>
-        </tr>
-        </tbody>
-    </v-simple-table>
+    <div>
+        <v-simple-table style="background-color: #f6f6ef;">
+            <tbody>
+            <tr>
+                <td class="greytext">user:</td><td><router-link :to=$route.path class="bluetext">{{this.user.name}}</router-link></td>
+            </tr>
+            <tr>
+                <td class="greytext">created:</td><td>{{this.user.created_at | humanReadableTime}}</td>
+            </tr>
+            <tr>
+                <td class="greytext">karma:</td><td>{{this.user.karma}}</td>
+            </tr>
+            <tr>
+                <td class="greytext">about:</td>
+                <td>
+                    <v-textarea
+                            v-model="about"
+                            background-color="#e6e6df"
+                            auto-grow
+                            clearable
+                    ></v-textarea>
+                    <v-btn outlined @click="send()" :color="color">UPDATE</v-btn>
+                </td>
+            </tr>
+            </tbody>
+        </v-simple-table>
+        <br>
+        <v-divider></v-divider>
+        <div>
+            <div class="d-inline-block" style="margin: 1em">
+            <v-btn color="blue darken-2" outlined :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</v-btn>
+            </div>
+            <div class="d-inline-block" style="margin: 1em">
+            <v-btn outlined color="blue darken-2" :to="{name: 'userSubmissions', params: { id: this.id }}">upvoted submissions</v-btn>
+            </div>
+            <div class="d-inline-block" style="margin: 1em">
+            <v-btn outlined color="blue darken-2" :to="{name: 'userComments', params: { id: this.id }}">comments</v-btn>
+            </div>
+            <div class="d-inline-block" style="margin: 1em">
+            <v-btn outlined color="blue darken-2" :to="{name: 'userComments', params: { id: this.id }}">upvoted comments</v-btn>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -62,7 +60,8 @@
                 errors: [],
                 user: [],
                 id:0,
-                about: ''
+                about: '',
+                color: ''
             }
         },
         created() {
@@ -80,10 +79,11 @@
                 formData = {
                     about: this.about
                 }
-                HTTP.put('/users/'+this.id, formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
+                HTTP.put('/users/'+this.id, formData, {headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    this.color = 'green'
+                }).catch(e => {
                     this.errors.push(e);
                 });
-                this.$router.push('/users/'+this.id+'/edit');
             }
         }
     }
@@ -96,15 +96,6 @@
     }
     .bluetext{
         color: #1976d2 !important;
-    }
-
-    .ulink{
-        color: black !important;
-        font-size: large;
-    }
-
-    .ulink:hover{
-        text-decoration: underline;
     }
 
 </style>
