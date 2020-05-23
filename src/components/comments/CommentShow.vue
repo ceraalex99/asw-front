@@ -3,7 +3,7 @@
         <v-list-item two-line>
             <v-list-item-content>
                 <v-list-item-subtitle>
-                    {{comment.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: comment.user_id }}">{{comment.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}"> | parent </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">| on: original post</router-link>
+                    {{comment.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: comment.user_id }}">{{comment.author}} </router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">parent</router-link> | on: <router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">original post</router-link>
                 </v-list-item-subtitle>
 
             </v-list-item-content>
