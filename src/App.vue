@@ -13,11 +13,11 @@
                     <v-btn to="/contributions/new" text color="white">SUBMIT</v-btn>
                 </td>
                 <td v-if="checkLogged()" class="login">
-                    <v-btn :to="{name: 'userEdit', params: { id: current_user_id() }}" text color="white">{{current_user_name()}}<v-icon right>mdi-account-outline</v-icon></v-btn>
+                    <v-btn :to="{name: 'userEdit', params: { id: current_user_id() }}" text color="white"><span class="cuttext">{{current_user_name()}}</span></v-btn>
                 </td>
                 <td class="login">
                     <template v-if="checkLogged()">
-                        <v-btn @click="logout" text color="white">LOGOUT<v-icon right>mdi-logout</v-icon></v-btn>
+                        <v-btn @click="logout" text color="white">LOGOUT</v-btn>
                     </template>
                     <template v-else>
                         <v-btn text color="white">
@@ -119,6 +119,8 @@
     .login{
         text-align: right;
         width: 1%;
+        max-width: 150px;
+
     }
     .clink{
         color: gray !important;
@@ -133,5 +135,12 @@
         margin-right: auto;
         text-align: left;
         background-color: #f6f6ef;
+    }
+    .cuttext{
+        text-overflow: ellipsis;
+        width: 150px;
+        overflow: hidden;
+        white-space: nowrap;
+
     }
 </style>
