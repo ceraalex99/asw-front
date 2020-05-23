@@ -10,12 +10,12 @@
                         <router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}"> {{contribution.created_at | humanReadableTime}}</router-link></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon v-if="!owned(contribution)">
-                    <v-icon v-if="contribution.liked" @click="unlike(contribution)">mdi-heart</v-icon>
+                    <v-icon v-if="contribution.liked" @click="unlike(contribution)" color="red">mdi-heart</v-icon>
                     <v-icon v-else @click="like(contribution)" @selected=false>mdi-heart-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-icon v-else>
                     <router-link :to="{name: 'contributionEdit', params: { id: contribution.id }}"><v-icon>mdi-pencil-outline</v-icon></router-link>
-                    <v-icon @click="remove(contribution)">mdi-trash-can-outline</v-icon>
+                    <v-icon @click="remove(contribution)" color="red">mdi-trash-can-outline</v-icon>
                 </v-list-item-icon>
             </v-list-item>
             <v-divider
