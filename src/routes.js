@@ -26,8 +26,6 @@ export default [
     {name: 'userShow', path: '/users/:id', component: UserShow},
     {name: 'commentShow', path: '/comments/:id', component: CommentShow},
     {name: 'userSubmissions', path: '/users/:id/submissions', component: UserSubmissions},
-    {name: 'userComments', path: '/users/:id/comments', component: UserComments}
-
-    {name: 'commentShow', path: '/comments/:id', component: CommentShow},
+    {name: 'userComments', path: '/users/:id/comments', component: UserComments},
     {name: 'replyShow', path: '/replies/:id', component: ReplyShow}
 ]
