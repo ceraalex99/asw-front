@@ -3,7 +3,7 @@
         <v-list-item two-line>
             <v-list-item-content>
                 <v-list-item-subtitle>
-                    {{comment.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: comment.user_id }}">{{comment.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}"> | parent </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">| on: original post</router-link>
+                    {{reply.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: reply.user_id }}">{{reply.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}"> | parent </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}">| on: original post</router-link>
                 </v-list-item-subtitle>
 
             </v-list-item-content>
@@ -12,7 +12,7 @@
         <v-list-item>
             <v-list-item-content>
                 <v-list-item-title>
-                    {{comment.text}}
+                    {{reply.text}}
                 </v-list-item-title>
             </v-list-item-content>
         </v-list-item>
@@ -21,7 +21,7 @@
             <v-row>
                 <div class="spacer"></div>
                 <v-textarea
-                        v-model="reply"
+                        v-model="newreply"
                         :rules="replyRules"
                         name="inputReply"
                         label="Reply"
@@ -61,25 +61,24 @@
         data() {
             return {
                 valid: false,
-                reply: '',
-                comment: {},
-                errors_comments: [],
+                newreply: '',
+                reply: {},
+                errors_reply: [],
                 replies: [],
                 errors_replies: [],
                 replyRules: [
                     v => !!v || '',
                 ],
-
             }
         },
         created() {
-            HTTP.get('/comments/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
-                this.comment = response.data;
+            HTTP.get('/replies/' + this.$route.params.id ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                this.reply = response.data;
             }).catch(e => {
                 this.errors_comments.push(e);
             });
 
-            HTTP.get('/comments/' + this.$route.params.id + '/replies' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+            HTTP.get('/replies/' + this.$route.params.id + '/replies' ,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
                 this.replies = response.data;
                 this.$forceUpdate();
             }).catch(e => {
@@ -91,8 +90,8 @@
                 if(this.$refs.form.validate()) {
                     let formData;
                     formData = {
-                        text: this.reply,
-                        contribution_id: this.comment.id,
+                        text: this.newreply,
+                        contribution_id: this.reply.id,
                     }
 
                     HTTP.post('/replies', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {

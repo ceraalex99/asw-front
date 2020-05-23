@@ -8,7 +8,7 @@
                         {{label}}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: user_id }}">{{author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: id }}">{{created_at | humanReadableTime}}</router-link>
+                        {{points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: user_id }}">{{author}} </router-link><router-link v-if="type==='Comment'" class="clink" :to="{name: 'commentShow', params: { id: id }}">{{created_at | humanReadableTime}}</router-link><router-link v-else-if="type==='Reply'" class="clink" :to="{name: 'replyShow', params: { id: id }}">{{created_at | humanReadableTime}}</router-link>
                     </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon v-if="!owned(user_id)">
