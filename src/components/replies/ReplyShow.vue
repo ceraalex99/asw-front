@@ -6,6 +6,10 @@
                     {{reply.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: reply.user_id }}">{{reply.author}} </router-link> | <router-link v-if= "reply.parent_type ==='Comment'" class="clink" :to="{name: 'commentShow', params: { id: reply.contribution_id }}">parent</router-link><router-link v-else-if= "reply.parent_type ==='Reply'" class="clink" :to="{name: 'replyShow', params: { id: reply.contribution_id }}">parent</router-link> | on: <router-link class="clink" :to="{name: 'contributionShow', params: { id: reply.post_id }}">original post</router-link>
                 </v-list-item-subtitle>
             </v-list-item-content>
+            <v-list-item-icon v-if="!owned(reply)">
+                <v-icon v-if="reply.liked" @click="unlikes(reply)" color="red">mdi-heart</v-icon>
+                <v-icon v-else @click="likes(reply)" @selected=false>mdi-heart-outline</v-icon>
+            </v-list-item-icon>
 
         </v-list-item>
         <v-list-item>
@@ -99,6 +103,31 @@
 
                     location.reload();
                 }
+            },
+            likes(reply) {
+                HTTP.post('/replies/'+reply.id+'/like',null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/replies/'+reply.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.reply = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            unlikes(reply) {
+                HTTP.delete('/replies/'+reply.id+'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/replies/'+reply.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.reply = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            owned(reply) {
+                return (reply.user_id == localStorage['userId'])
             }
         }
     }
