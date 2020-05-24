@@ -1,5 +1,5 @@
 <template>
-
+    <div>
         <v-simple-table style="background-color: #f6f6ef;">
             <tbody>
                 <tr>
@@ -14,25 +14,19 @@
                 <tr>
                     <td class="greytext">about:</td><td>{{this.user.about}}</td>
                 </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        <router-link class="ulink" :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</router-link>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        <router-link class="ulink" :to="{name: 'userComments', params: { id: this.id }}">comments</router-link>
-                    </td>
-
-                </tr>
             </tbody>
         </v-simple-table>
-
+        <br>
+        <v-divider></v-divider>
+        <div>
+            <div class="d-inline-block" style="margin: 1em">
+                <v-btn color="blue darken-2" outlined :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</v-btn>
+            </div>
+            <div class="d-inline-block" style="margin: 1em">
+                <v-btn outlined color="blue darken-2" :to="{name: 'userComments', params: { id: this.id }}">comments</v-btn>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

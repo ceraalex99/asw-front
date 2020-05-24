@@ -11,6 +11,7 @@ import UserEdit from '@/components/users/UserEdit';
 import UserSubmissions from "./components/users/UserSubmissions";
 import UserComments from "./components/users/UserComments";
 import ReplyShow from "./components/replies/ReplyShow";
+import UpvotedSubmissions from "./components/users/UpvotedSubmissions";
 
 
 export default [
@@ -27,5 +28,6 @@ export default [
     {name: 'commentShow', path: '/comments/:id', component: CommentShow},
     {name: 'userSubmissions', path: '/users/:id/submissions', component: UserSubmissions},
     {name: 'userComments', path: '/users/:id/comments', component: UserComments},
-    {name: 'replyShow', path: '/replies/:id', component: ReplyShow}
+    {name: 'replyShow', path: '/replies/:id', component: ReplyShow},
+    {name: 'upvotedSubmissions', path: '/users/:id/upvoted_submissions', component: UpvotedSubmissions}
 ]
