@@ -32,7 +32,9 @@
                 </td>
             </tr>
         </v-simple-table>
-        <router-view :key="componentKey"></router-view>
+        <div :key="componentKey">
+            <router-view :key="$route.fullPath"></router-view>
+        </div>
     </v-app>
 </template>
 
