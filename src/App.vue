@@ -69,6 +69,7 @@
                 localStorage.removeItem('googleId')
                 this.$forceUpdate()
                 this.componentKey += 1
+                this.$router.push("/contributions")
             },
             checkLogged() {
                 return 'userId' in localStorage
