@@ -102,10 +102,12 @@
                         }
                     }
 
-                    HTTP.post('/posts', formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
-                        this.errors.push(e);
+                    HTTP.post('/posts', formData, {headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        if(response.status === 200) {
+                            this.$router.push("/contributions/" + response.data.id);
+                        }
+                        else this.$router.push("/contributions/newest");
                     });
-                    this.$router.push("/contributions/newest");
                 }
             },
             checkLogged() {
