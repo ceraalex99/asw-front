@@ -12,8 +12,7 @@
                     </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon v-if="!owned(contribution)">
-                    <v-icon v-if="contribution.liked" @click="unlike(contribution)" color="red">mdi-heart</v-icon>
-                    <v-icon v-else @click="like(contribution)" @selected=false>mdi-heart-outline</v-icon>
+                    <v-icon @click="unlike(contribution)" color="red">mdi-heart</v-icon>
                 </v-list-item-icon>
                 <v-list-item-icon v-else>
                     <v-icon @click="remove(contribution)">mdi-trash-can-outline</v-icon>
