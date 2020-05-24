@@ -106,10 +106,14 @@
                         }
                     }
 
-                    HTTP.put('/posts/'+ this.$route.params.id, formData, {headers: {'Authorization': localStorage['googleId']}}).catch(e => {
+                    HTTP.put('/posts/'+ this.$route.params.id, formData, {headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        if(response.status === 201) {
+                            this.$router.push("/contributions/" + response.data.id);
+                        }
+                        else this.$router.push("/contributions/newest");
+                    }).catch(e => {
                         this.errors.push(e);
                     });
-                    this.$router.push("/contributions/newest");
                 }
             }
         }

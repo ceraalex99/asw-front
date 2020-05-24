@@ -107,6 +107,8 @@
                             this.$router.push("/contributions/" + response.data.id);
                         }
                         else this.$router.push("/contributions/newest");
+                    }).catch(e => {
+                        this.errors.push(e);
                     });
                 }
             },
