@@ -44,11 +44,23 @@
                 ></v-text-field>
                 <div class="spacer"></div>
             </v-row>
-            <v-row>
+            <v-row v-if="checkLogged()">
                 <div class="spacer"></div>
                 <v-btn outlined @click="send()">SUBMIT</v-btn>
                 <div class="spacer"></div>
             </v-row>
+            <div v-else>
+                <v-row>
+                    <div class="spacer"></div>
+                    <v-btn outlined disabled>SUBMIT</v-btn>
+                    <div class="spacer"></div>
+                </v-row>
+                <v-row>
+                    <div class="spacer"></div>
+                    <span style="color:red">No estàs logejat</span>
+                    <div class="spacer"></div>
+                </v-row>
+            </div>
         </v-container>
     </v-form>
 
@@ -95,7 +107,10 @@
                     });
                     this.$router.push("/contributions/newest");
                 }
-            }
+            },
+            checkLogged() {
+                return 'userId' in localStorage
+            },
         }
     }
 </script>
