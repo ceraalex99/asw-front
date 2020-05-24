@@ -38,7 +38,6 @@
 
 <script>
     import moment from "moment";
-    import {HTTP} from '@/components/http-common'
 
     export default {
         props: ['id', 'label', 'author', 'user_id','created_at', 'points', 'replies', 'type', 'liked', 'depth', 'like', 'unlike'],
@@ -55,15 +54,6 @@
             indent(depth) {
                 return "margin-left: "+depth*50+"px;"
             },
-            remove(id, type) {
-                if(type === 'Comment'){
-                    HTTP.delete('/comments/'+ id,{headers: {'Authorization': localStorage['googleId']}});
-                }
-                else { //type = reply
-                    HTTP.delete('/replies/'+ id,{headers: {'Authorization': localStorage['googleId']}});
-                }
-                location.reload();
-            }
         },
         like(id, type) {
             this.like(id, type)
