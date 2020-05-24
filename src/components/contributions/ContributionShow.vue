@@ -8,8 +8,11 @@
                 <v-list-item-subtitle>
                     {{contribution.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: contribution.user_id }}">{{contribution.author}} </router-link><router-link class="clink" :to="{name: 'contributionShow', params: { id: contribution.id }}">{{contribution.created_at | humanReadableTime}}</router-link>
                 </v-list-item-subtitle>
-
             </v-list-item-content>
+            <v-list-item-icon v-if="!owned(contribution)">
+                <v-icon v-if="contribution.liked" @click="unlikes(contribution)" color="red">mdi-heart</v-icon>
+                <v-icon v-else @click="likes(contribution)" @selected=false>mdi-heart-outline</v-icon>
+            </v-list-item-icon>
 
         </v-list-item>
         <v-list-item>
@@ -109,6 +112,28 @@
                     });
                 }
             },
+            likes(contribution) {
+                HTTP.post('/posts/'+contribution.id+'/like',null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/posts/'+contribution.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.contribution = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            unlikes(contribution) {
+                HTTP.delete('/posts/'+contribution.id+'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/posts/'+contribution.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.contribution = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
             like(id, type) {
                 if(type === 'Comment'){
                     HTTP.post('/comments/'+ id +'/like', null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
@@ -168,6 +193,9 @@
                         });
                     });
                 }
+            },
+            owned(contribution) {
+                return (contribution.user_id == localStorage['userId'])
             }
         }
     }
