@@ -53,7 +53,6 @@
             onSignInSuccess (googleUser) {
                 const profile = googleUser.getBasicProfile()
                 localStorage.setItem('googleId', profile.getId())
-                localStorage.setItem('userName', profile.getName())
                 axios.post('https://asw-practica.herokuapp.com/api/login', {google_id: profile.getId(), name: profile.getName()}).then(response => {
                     localStorage.setItem('userId', response.data.id)
                     this.$forceUpdate()
