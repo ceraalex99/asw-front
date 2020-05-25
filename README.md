@@ -1,24 +1,12 @@
-# asw-front
+# Front de la pràctica d'ASW
 
-## Project setup
-```
-yarn install
-```
+###Membres del grup
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+- Àlex Cera Fernández
+- Coral Vila Prieto
+- Pablo Morillas Cabello
+- Miguel Angel Serrat Gil
 
-### Compiles and minifies for production
-```
-yarn build
-```
+###URL del Client Web
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://asw-front.herokuapp.com/
