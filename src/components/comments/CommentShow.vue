@@ -5,9 +5,11 @@
                 <v-list-item-subtitle>
                     {{comment.points}} points by <router-link class="clink" :to="{name: 'userShow', params: { id: comment.user_id }}">{{comment.author}} </router-link> | <router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">parent</router-link> | on: <router-link class="clink" :to="{name: 'contributionShow', params: { id: comment.post_id }}">original post</router-link>
                 </v-list-item-subtitle>
-
             </v-list-item-content>
-
+            <v-list-item-icon v-if="!owned(reply)">
+                <v-icon v-if="comment.liked" @click="unlikes(comment)" color="red">mdi-heart</v-icon>
+                <v-icon v-else @click="likes(comment)" @selected=false>mdi-heart-outline</v-icon>
+            </v-list-item-icon>
         </v-list-item>
         <v-list-item>
             <v-list-item-content>
@@ -101,6 +103,31 @@
 
                     location.reload();
                 }
+            },
+            likes(comment) {
+                HTTP.post('/comments/'+comment.id+'/like',null,{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/comments/'+comment.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.comment = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            unlikes(comment) {
+                HTTP.delete('/comments/'+comment.id+'/like',{headers: {'Authorization': localStorage['googleId']}}).then(() => {
+                    HTTP.get('/comments/'+comment.id,{headers: {'Authorization': localStorage['googleId']}}).then(response => {
+                        this.comment = response.data
+                    }).catch(e => {
+                        this.errors.push(e);
+                    });
+                }).catch(e => {
+                    this.errors.push(e);
+                });
+            },
+            owned(comment) {
+                return (comment.user_id == localStorage['userId'])
             }
         }
     }

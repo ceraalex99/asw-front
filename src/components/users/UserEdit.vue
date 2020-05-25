@@ -32,13 +32,13 @@
             <v-btn color="blue darken-2" outlined :to="{name: 'userSubmissions', params: { id: this.id }}">submissions</v-btn>
             </div>
             <div class="d-inline-block" style="margin: 1em">
-            <v-btn outlined color="blue darken-2" :to="{name: 'userSubmissions', params: { id: this.id }}">upvoted submissions</v-btn>
+            <v-btn outlined color="blue darken-2" :to="{name: 'upvotedSubmissions', params: { id: this.id }}">upvoted submissions</v-btn>
             </div>
             <div class="d-inline-block" style="margin: 1em">
             <v-btn outlined color="blue darken-2" :to="{name: 'userComments', params: { id: this.id }}">comments</v-btn>
             </div>
             <div class="d-inline-block" style="margin: 1em">
-            <v-btn outlined color="blue darken-2" :to="{name: 'userComments', params: { id: this.id }}">upvoted comments</v-btn>
+            <v-btn outlined color="blue darken-2" :to="{name: 'upvotedComments', params: { id: this.id }}">upvoted comments</v-btn>
             </div>
         </div>
     </div>
